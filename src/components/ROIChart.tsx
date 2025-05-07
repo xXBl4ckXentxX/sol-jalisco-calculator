@@ -54,9 +54,9 @@ const ROIChart = ({ datos, costoInicial }: ROIChartProps) => {
         <div className="h-80 w-full">
           <ChartContainer
             config={{
-              ahorro: { theme: { light: "#0EA5E9" } },
-              acumulado: { theme: { light: "#F97316" } },
-              inversion: { theme: { light: "#ef4444" } }
+              ahorro: { theme: { light: "#0EA5E9", dark: "#0EA5E9" } },
+              acumulado: { theme: { light: "#F97316", dark: "#F97316" } },
+              inversion: { theme: { light: "#ef4444", dark: "#ef4444" } }
             }}
           >
             <ComposedChart data={datos} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>

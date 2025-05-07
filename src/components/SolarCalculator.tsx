@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { MUNICIPIOS_JALISCO, PANELES_SOLARES } from '@/data/municipios';
 import { calcularPaneles, CalculationResult } from '@/utils/solarCalculator';
@@ -15,7 +14,6 @@ const SolarCalculator = () => {
   const [areaDisponible, setAreaDisponible] = useState<number | ''>('');
   const [consumo, setConsumo] = useState<number>(350);
   const [municipioId, setMunicipioId] = useState<string>('');
-  const [eficiencia, setEficiencia] = useState<number>(80);
   const [tipoPanelId, setTipoPanelId] = useState<string>("estandar");
   const [results, setResults] = useState<CalculationResult | null>(null);
   const { toast } = useToast();
@@ -61,12 +59,12 @@ const SolarCalculator = () => {
       return;
     }
 
-    // Calcular resultados
+    // Calcular resultados usando un valor fijo de eficiencia
     const calculationResults = calcularPaneles({
       areaDisponible: Number(areaDisponible),
       consumo,
       municipio,
-      eficiencia: eficiencia / 100,
+      eficiencia: 0.8, // Valor fijo de eficiencia (80%)
       tipoPanelId
     });
 
@@ -142,20 +140,6 @@ const SolarCalculator = () => {
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">Seleccione el tipo de panel solar que desea instalar</p>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <Label>Eficiencia del sistema</Label>
-              <span className="text-sm font-medium">{eficiencia}%</span>
-            </div>
-            <Slider
-              defaultValue={[eficiencia]}
-              min={70}
-              max={95}
-              step={1}
-              onValueChange={(values) => setEficiencia(values[0])}
-            />
           </div>
 
           <Button 
