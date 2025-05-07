@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { MUNICIPIOS_JALISCO } from '@/data/municipios';
+import { MUNICIPIOS_JALISCO, PANELES_SOLARES } from '@/data/municipios';
 import { calcularPaneles, CalculationResult } from '@/utils/solarCalculator';
 import { useToast } from '@/components/ui/use-toast';
 import ResultsDisplay from './ResultsDisplay';
@@ -16,6 +16,7 @@ const SolarCalculator = () => {
   const [consumo, setConsumo] = useState<number>(350);
   const [municipioId, setMunicipioId] = useState<string>('');
   const [eficiencia, setEficiencia] = useState<number>(80);
+  const [tipoPanelId, setTipoPanelId] = useState<string>("estandar");
   const [results, setResults] = useState<CalculationResult | null>(null);
   const { toast } = useToast();
 
@@ -65,7 +66,8 @@ const SolarCalculator = () => {
       areaDisponible: Number(areaDisponible),
       consumo,
       municipio,
-      eficiencia: eficiencia / 100
+      eficiencia: eficiencia / 100,
+      tipoPanelId
     });
 
     setResults(calculationResults);
@@ -123,6 +125,23 @@ const SolarCalculator = () => {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="tipo-panel">Tipo de panel</Label>
+            <Select value={tipoPanelId} onValueChange={setTipoPanelId}>
+              <SelectTrigger id="tipo-panel">
+                <SelectValue placeholder="Seleccione un tipo de panel" />
+              </SelectTrigger>
+              <SelectContent>
+                {PANELES_SOLARES.map((panel) => (
+                  <SelectItem key={panel.id} value={panel.id}>
+                    {panel.nombre} - {panel.potencia}W
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">Seleccione el tipo de panel solar que desea instalar</p>
           </div>
 
           <div className="space-y-2">
